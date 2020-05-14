@@ -11,9 +11,9 @@
                 - Standard operator spacing
                     Internal sniff enforces spaces for all operators except
                     string concatenation where no spaces are enforced
-                - multi key word strctures to be closed opened on same line
+                - multi key word structures to be closed opened on same line
                     Ie } else {
-                    This is enforced as being on new in internal sniff
+                    This is enforced as being on a new line in internal sniff
         -->
         <exclude name="PSR12.Files.FileHeader.SpacingAfterBlock"/>
         <exclude name="PSR12.Operators.OperatorSpacing"/>
