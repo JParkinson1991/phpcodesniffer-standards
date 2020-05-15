@@ -7,7 +7,7 @@ for use with [squizlabs/PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSn
 
 The following standards are provided by this package
 
-### JPSR-12
+### [JPSR-12](docs/Standards/JPSR12/JPSR12.md)
 
 An adaptation of the [PSR-12](https://www.php-fig.org/psr/psr-12/) coding
 standard with some minor tweaks. [View Documentation](docs/Standards/JPSR12/JPSR12.md)
