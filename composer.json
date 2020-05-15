@@ -1,0 +1,28 @@
+{
+    "name": "jparkinson1991/phpcodesniffer-standards",
+    "description": "Custom PHP_Codesniffer standards",
+    "version": "1.0.0",
+    "type": "phpcodesniffer-standard",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Josh Parkinson",
+            "email": "joshparkinson1991@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "squizlabs/php_codesniffer": "^3.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "*"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "JParkinson1991\\PhpCodeSnifferStandards\\": "src/"
+        }
+    }
+}
