@@ -6,8 +6,12 @@
         <!--
             PSR-12 Exclusions
 
+            Overrides:
+                - FileHeader sniff completely, use internal sniff for this
+                  matches functionality whilst enforcing no blank line
+                  between <?php and file docblock
+
             Stops Enforcing Of:
-                - Empty new line after <?php
                 - Standard operator spacing
                     Internal sniff enforces spaces for all operators except
                     string concatenation where no spaces are enforced
@@ -15,7 +19,7 @@
                     Ie } else {
                     This is enforced as being on a new line in internal sniff
         -->
-        <exclude name="PSR12.Files.FileHeader.SpacingAfterBlock"/>
+        <exclude name="PSR12.Files.FileHeader"/>
         <exclude name="PSR12.Operators.OperatorSpacing"/>
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
     </rule>

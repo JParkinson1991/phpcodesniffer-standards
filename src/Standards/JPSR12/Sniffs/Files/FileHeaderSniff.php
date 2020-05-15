@@ -10,10 +10,18 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
+/**
+ * Class FileHeaderSniff
+ *
+ * Taken from PSR-12 standard and modified so that no blank lines can exist
+ * between php opening tag and the file level docblock.
+ *
+ * All other rules remain as defined in the original standard.
+ *
+ * @package JParkinson1991\PhpCodeSnifferStandards\Standards\JPSR12\Sniffs\Files
+ */
 class FileHeaderSniff implements Sniff
 {
-
-
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -29,9 +37,10 @@ class FileHeaderSniff implements Sniff
     /**
      * Processes this sniff when one of its tokens is encountered.
      *
-     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
-     * @param int                         $stackPtr  The position of the current
-     *                                               token in the stack.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
+     *     The file being scanned.
+     * @param int $stackPtr
+     *     The position of the current token in the stack.
      *
      * @return int|null
      */
@@ -119,9 +128,10 @@ class FileHeaderSniff implements Sniff
     /**
      * Gather information about the statements inside a possible file header.
      *
-     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
-     * @param int                         $stackPtr  The position of the current
-     *                                               token in the stack.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
+     *     The file being scanned.
+     * @param int $stackPtr
+     *     The position of the current token in the stack.
      *
      * @return array
      */
@@ -252,9 +262,10 @@ class FileHeaderSniff implements Sniff
     /**
      * Check the spacing and grouping of the statements inside each header block.
      *
-     * @param \PHP_CodeSniffer\Files\File $phpcsFile   The file being scanned.
-     * @param array                       $headerLines Header information, as sourced
-     *                                                 from getHeaderLines().
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
+     *     The file being scanned.
+     * @param array $headerLines
+     *     Header information, as sourced from getHeaderLines().
      *
      * @return int|null
      */
@@ -275,8 +286,8 @@ class FileHeaderSniff implements Sniff
 
 
                 if ($next !== false) {
-                    // Handle opening tag and file level docblock
-                    // Else handle default spacing between header line
+                    // Handle opening tag and file level docblock pair
+                    // Else handle default spacing between header lines
                     if ($line['type'] === 'tag' && isset($headerLines[$i + 1]) && $headerLines[$i + 1]['type'] === 'docblock') {
                         $docblockLine = $headerLines[$i + 1];
                         // Ensure docblock opens on the line below php
