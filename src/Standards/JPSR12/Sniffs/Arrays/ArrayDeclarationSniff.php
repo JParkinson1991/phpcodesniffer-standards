@@ -243,11 +243,12 @@ class ArrayDeclarationSniff implements Sniff
                 $phpcsFile->recordMetric($stackPtr, 'Mutliline array no tailing comma', 'no');
             }
 
-            // Ensure not a comma as could trigger false positives
+            // Ensure not a comma or short array close as could trigger false positives
             // Handle no key specified errors for last items in array
             if(
                 $keyUsed === true
                 && $tokens[$trailingContent]['code'] !== T_COMMA
+                && $tokens[$trailingContent]['code'] !== T_CLOSE_SHORT_ARRAY
                 && $tokens[$trailingContent - 1]['code'] !== T_DOUBLE_ARROW
                 && (
                     $tokens[$trailingContent]['line'] !== $tokens[$phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)]['line']
