@@ -2,23 +2,23 @@
 <ruleset name="JPSR12" namespace="JParkinson1991\PhpCodeSnifferStandards\Standards\JPSR12">
     <description>Adaptation of the PSR-12 Standard</description>
 
+    <!--
+        Inherit PSR-12
+
+        Overrides:
+            - FileHeader sniff completely, use internal sniff for this
+              matches functionality whilst enforcing no blank line
+              between <?php and file docblock
+            - Operator sniff completely, use internal sniff for this which
+              forces space between all operators except string concat
+              which enforces no space between
+
+        Stops Enforcing Of:
+            - multi key word structures to be closed opened on same line
+                Ie } else {
+                This is enforced as being on a new line in internal sniff
+    -->
     <rule ref="PSR12">
-        <!--
-            PSR-12 Exclusions
-
-            Overrides:
-                - FileHeader sniff completely, use internal sniff for this
-                  matches functionality whilst enforcing no blank line
-                  between <?php and file docblock
-
-            Stops Enforcing Of:
-                - Standard operator spacing
-                    Internal sniff enforces spaces for all operators except
-                    string concatenation where no spaces are enforced
-                - multi key word structures to be closed opened on same line
-                    Ie } else {
-                    This is enforced as being on a new line in internal sniff
-        -->
         <exclude name="PSR12.Files.FileHeader"/>
         <exclude name="PSR12.Operators.OperatorSpacing"/>
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
@@ -27,24 +27,32 @@
     <!--
         Array Rules
 
-        Enforces:
-            - Lowercase array keyword
-            - No spacer after array keyword
-            - No commas after last item in single line array
-                No commas enforced in multi line array using internal sniff
-            - No spaces in empty array
-            - Closing brace on new line
-            - Keys specification to be uniform, no key non key items in same array
-                Special handling of last elements done in internal sniff
-            - No key'd arrays can not have some more than 1 element per line on
-              multi line array
+        Inherit Squiz Array Declaration
+            Disabling:
+                - Multiline having  no comma after line / last element
+                    Syntax parse handles lines missing comma where required
+                    Internal sniff enforces last element does not have a comma
+                - Single line arrays having multiple values
+                - Alignment checks, use generic rule instead
+
+        Generic rules:
+            - Standard indent/alignment checks
+                [
+                    'key' => 'value',
+                    'another key' => 'value'
+                ]
+            - Disable long array syntax
     -->
-    <rule ref="Squiz.Arrays.ArrayDeclaration.NotLowerCase"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.SpaceAfterKeyword"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.CommaAfterLast"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.SpaceInEmptyArray"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.CloseBraceNewLine"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.NoKeySpecified"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.KeySpecified"/>
-    <rule ref="Squiz.Arrays.ArrayDeclaration.ValueNoNewline"/>
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <exclude name="Squiz.Arrays.ArrayDeclaration.NoComma"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.NoCommaAfterLast"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeyNotAligned"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned"/>
+    </rule>
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
 </ruleset>
