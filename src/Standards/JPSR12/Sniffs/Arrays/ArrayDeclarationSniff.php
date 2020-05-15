@@ -231,19 +231,7 @@ class ArrayDeclarationSniff implements Sniff
                 true
             );
 
-            // Handle no key specified errors for last items in array
-            if(
-                $keyUsed === true
-                && $tokens[$trailingContent - 1]['code'] !== T_DOUBLE_ARROW
-                && (
-                    $tokens[$trailingContent]['line'] !== $tokens[$phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)]['line']
-                    || $phpcsFile->findPrevious(T_COMMA, $trailingContent) > $phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)
-                )
-            ) {
-                $error = 'No key specified for array entry';
-                $phpcsFile->addError($error, $trailingContent, 'LastElementNoKeySpecified');
-            }
-
+            // If comma last item of multi line array deal with
             if ($tokens[$trailingContent]['code'] === T_COMMA) {
                 $phpcsFile->recordMetric($stackPtr, 'Array end comma', 'yes');
                 $error = 'No comma allowed after last element in multiline array';
@@ -253,6 +241,21 @@ class ArrayDeclarationSniff implements Sniff
                 }
             } else {
                 $phpcsFile->recordMetric($stackPtr, 'Mutliline array no tailing comma', 'no');
+            }
+
+            // Ensure not a comma as could trigger false positives
+            // Handle no key specified errors for last items in array
+            if(
+                $keyUsed === true
+                && $tokens[$trailingContent]['code'] !== T_COMMA
+                && $tokens[$trailingContent - 1]['code'] !== T_DOUBLE_ARROW
+                && (
+                    $tokens[$trailingContent]['line'] !== $tokens[$phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)]['line']
+                    || $phpcsFile->findPrevious(T_COMMA, $trailingContent) > $phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)
+                )
+            ) {
+                $error = 'No key specified for array entry';
+                $phpcsFile->addError($error, $trailingContent, 'LastElementNoKeySpecified');
             }
         }
     }
