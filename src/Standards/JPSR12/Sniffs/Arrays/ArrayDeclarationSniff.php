@@ -251,7 +251,10 @@ class ArrayDeclarationSniff implements Sniff
                 && $tokens[$trailingContent - 1]['code'] !== T_DOUBLE_ARROW
                 && (
                     $tokens[$trailingContent]['line'] !== $tokens[$phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)]['line']
-                    || $phpcsFile->findPrevious(T_COMMA, $trailingContent) > $phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)
+                    || (
+                        $phpcsFile->findPrevious(T_COMMA, $trailingContent) > $phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent)
+                        && $phpcsFile->findPrevious(T_DOUBLE_ARROW, $trailingContent) > $phpcsFile->findPrevious(T_OPEN_SHORT_ARRAY, $trailingContent)
+                    )
                 )
             ) {
                 $error = 'No key specified for array entry';
