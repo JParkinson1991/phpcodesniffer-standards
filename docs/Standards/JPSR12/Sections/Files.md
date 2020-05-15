@@ -1,4 +1,4 @@
-# [JPSR-12](../JSPR12.md): Files
+# [JPSR-12](../JPSR12.md): Files
 
 ## List
 

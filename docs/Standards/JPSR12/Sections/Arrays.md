@@ -1,4 +1,4 @@
-# [JPSR-12](../JSPR12.md): Arrays
+# [JPSR-12](../JPSR12.md): Arrays
 
 ## Prefix
 
