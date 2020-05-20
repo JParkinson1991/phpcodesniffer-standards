@@ -51,6 +51,7 @@
         <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned"/>
         <exclude name="Squiz.Arrays.ArrayDeclaration.KeyNotAligned"/>
         <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed"/>
     </rule>
     <rule ref="Generic.Arrays.ArrayIndent"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
