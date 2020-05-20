@@ -1,7 +1,7 @@
 {
     "name": "jparkinson1991/phpcodesniffer-standards",
     "description": "Custom PHP_Codesniffer standards",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "type": "phpcodesniffer-standard",
     "license": "GPL-3.0-or-later",
     "authors": [
