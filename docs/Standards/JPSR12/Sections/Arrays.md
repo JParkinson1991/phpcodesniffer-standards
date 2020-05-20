@@ -11,6 +11,7 @@ Array rules are pulled directly for the [Squiz standard](https://github.com/squi
  - `Squiz.Arrays.ArrayDeclaration.ValueNotAligned`
  - `Squiz.Arrays.ArrayDeclaration.KeyNotAligned`
  - `Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned`
+ - `Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed`
 
 
 ## List
@@ -19,6 +20,7 @@ Array rules are pulled directly for the [Squiz standard](https://github.com/squi
 - [Last Element Comma](#last-element-comma)
 - [Long Syntax](#long-syntax)
 - [Single Line Multi Value Arrays](#single-line-multi-value-arrays)
+- [Single Value Multi Line Arrays](#single-value-multi-line-arrays)
 
 ## Rules
 
@@ -87,5 +89,19 @@ $array = ['one', 'two',
     'three', 'four'];
 $array = ['key' => 'pair',
     'another key' => 'pair'];
+
+```
+
+### Single Value Multi Line Arrays
+
+The use of a single value in a multiline array declaration is **allowed**
+
+#### Example
+
+```
+<?php
+$array [
+    'long-value-reading-better-on-multiline'
+];
 
 ```

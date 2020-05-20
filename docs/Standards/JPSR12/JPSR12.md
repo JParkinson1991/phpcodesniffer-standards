@@ -11,6 +11,7 @@ The following documentation will cover rules where this standard deviates from P
     - [Last Element Comma](Sections/Arrays.md#last-element-comma)
     - [Long Syntax](Sections/Arrays.md#long-syntax)
     - [Single Line Multi Value Arrays](Sections/Arrays.md#single-line-multi-value-arrays)
+    - [Single Value Multi Line Arrays](Sections/Arrays.md#single-value-multi-line-arrays)
 - [Control Structures](Sections/ControlSignatures.md)
     - [Multi Keyword Controls](Sections/ControlSignatures.md#multi-keyword-controls)
 - [Files](Sections/Files.md)
