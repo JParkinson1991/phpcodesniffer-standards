@@ -60,6 +60,9 @@ class MultiKeywordSniff implements Sniff
             $found = 'spaces';
         }
 
+        // Check if there is a newline
+        // If there isn't raise error
+        // If there is, ensure only one new line
         if ($found !== 'newline') {
             $error = 'Expected newline after closing brace';
             $fix   = $phpcsFile->addFixableError($error, $closer, 'NewlineRequired');
@@ -68,6 +71,18 @@ class MultiKeywordSniff implements Sniff
                     $phpcsFile->fixer->addContent($closer, "\n");
                 } else {
                     $phpcsFile->fixer->replaceToken(($closer + 1), "\n");
+                }
+            }
+        }
+        else {
+            $lineDiff = ($tokens[$stackPtr]['line'] - $tokens[$closer]['line']);
+            if($lineDiff !== 1) {
+                $error = 'Expected 1 newline after closing brace. Found '.$lineDiff.'.';
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SingleNewlineRequired');
+                if ($fix === true) {
+                    for ($ptr = $stackPtr - 1; $ptr < $stackPtr && $ptr > $closer; $ptr--) {
+                        $phpcsFile->fixer->replaceToken($ptr, '');
+                    }
                 }
             }
         }
