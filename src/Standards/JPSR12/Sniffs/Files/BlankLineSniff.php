@@ -134,13 +134,25 @@ class BlankLineSniff implements Sniff
                 $phpcsFile->fixer->beginChangeset();
 
                 // Remove all content between the start and end
+                // Capture the ptr in which a new line should be added before
+                $addNewLineBeforePtr = $nextCodeLinePtr;
                 for ($ptr = $startPtr; $ptr > $endPtr; $ptr--) {
+                    // Ensure not stripping whitespace from found code line
+                    if($tokens[$ptr]['line'] === $nextCodeLine) {
+                        // Update new line ptr so new line added at the start
+                        // of the next code line found, remembering newlines
+                        // only added for non docblock fixes
+                        $addNewLineBeforePtr = $ptr;
+
+                        continue;
+                    }
+
                     $phpcsFile->fixer->replaceToken($ptr, '');
                 }
 
                 // Add a single blank line between if needed
                 if ($addBlankLine) {
-                    $phpcsFile->fixer->addContentBefore($nextCodeLinePtr, $phpcsFile->eolChar.$phpcsFile->eolChar);
+                    $phpcsFile->fixer->addContentBefore($addNewLineBeforePtr, $phpcsFile->eolChar.$phpcsFile->eolChar);
                 }
 
                 $phpcsFile->fixer->endChangeset();
