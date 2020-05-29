@@ -15,6 +15,7 @@ The following documentation will cover rules where this standard deviates from P
 - [Control Structures](Sections/ControlSignatures.md)
     - [Multi Keyword Controls](Sections/ControlSignatures.md#multi-keyword-controls)
 - [Files](Sections/Files.md)
+   - [Blank Lines](Sections/Files.md#blank-lines)
    - [File Header](Sections/Files.md#file-header)
 - [Operators](Sections/Operators.md)
     - [Spacing](Sections/Operators.md#spacing)
