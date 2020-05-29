@@ -2,9 +2,57 @@
 
 ## List
 
+- [Blank Lines](#blank-lines)
 - [File Header](#file-header)
 
+
 ## Rules
+
+### Blank Lines
+
+Multiple blank lines **are not allowed** between code or docblock contents.
+
+#### Examples
+
+##### Bad
+
+```
+<?php
+$code = true;
+
+
+$anotherLine = 'here';
+```
+```
+<?php
+/**
+ * This is a docblock
+ *
+ *
+ * Too many blank lines above me.
+ */
+class Test
+{
+```
+
+##### Good
+
+```
+<?php
+$code = true;
+
+$anotherLine = 'here';
+```
+```
+<?php
+/**
+ * This is a docblock
+ *
+ * Too many blank lines above me.
+ */
+class Test
+{
+```
 
 ### File Header
 
@@ -21,4 +69,3 @@ There **can not** be a blank line between the opening `<?php` tag and the file l
  * No blank lines between me and the <?php
  */
 ```
-
