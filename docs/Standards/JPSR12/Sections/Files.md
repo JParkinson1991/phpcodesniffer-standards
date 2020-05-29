@@ -40,6 +40,11 @@ class Test
 ```
 <?php
 $code = true;
+$anotherLine = 'here';
+```
+```
+<?php
+$code = true;
 
 $anotherLine = 'here';
 ```
@@ -48,7 +53,7 @@ $anotherLine = 'here';
 /**
  * This is a docblock
  *
- * Too many blank lines above me.
+ * Only the maximum 1 blank line above me.
  */
 class Test
 {
