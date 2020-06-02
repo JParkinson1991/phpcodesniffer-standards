@@ -19,4 +19,6 @@ The following documentation will cover rules where this standard deviates from P
    - [File Header](Sections/Files.md#file-header)
 - [Operators](Sections/Operators.md)
     - [Spacing](Sections/Operators.md#spacing)
+- [Types](Sections/Types.md)
+    - [Strict Types](Sections/Types.md#strict-types)
 
