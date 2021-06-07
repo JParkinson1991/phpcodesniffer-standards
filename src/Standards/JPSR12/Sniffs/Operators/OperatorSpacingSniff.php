@@ -117,20 +117,73 @@ class OperatorSpacingSniff extends SquizOperatorSpacingSniff
             }
         } else {
             if ($checkBefore === true && $tokens[($stackPtr - 1)]['code'] === T_WHITESPACE) {
-                $error = 'Expected 0 spaces before "%s"';
-                $data = [$operator];
-                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'StringConcatSpaceBefore', $data);
-                if ($fix === true) {
-                    $phpcsFile->fixer->replaceToken($stackPtr - 1, '');
+                // Find previous non whitespace character, use it determine file line difference
+                $previousNonWhitespaceToken = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null, true);
+                $lineDiff = $tokens[$stackPtr]['line'] - $tokens[$previousNonWhitespaceToken]['line'];
+
+                $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null);
+
+                // Same line, check spaces
+                // Else more than one line, show error
+                // Single new line between arguments allowed
+                if ($lineDiff === 0) {
+                    $fix = $phpcsFile->addFixableError(
+                        'Expected 0 spaces before string concatenation operator',
+                        $stackPtr,
+                        'StringConcatSpaceBefore'
+                    );
+
+                    if ($fix === true) {
+                        $phpcsFile->fixer->replaceToken($stackPtr - 1, '');
+                    }
+                }
+                else if ($lineDiff > 1) {
+                    $fix = $phpcsFile->addFixableError(
+                        'Empty lines found before string concatenation operator',
+                        $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null),
+                        'StringConcatEmptyLinesBefore'
+                    );
+
+                    if ($fix === true) {
+                        $phpcsFile->fixer->replaceToken($stackPtr - 1, '');
+                    }
                 }
             }
 
             if ($checkAfter === true && $tokens[($stackPtr + 1)]['code'] === T_WHITESPACE) {
-                $error = 'Expected 0 spaces after "%s"';
-                $data = [$operator];
-                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'StringConcatSpaceAfter', $data);
-                if ($fix === true) {
-                    $phpcsFile->fixer->replaceToken($stackPtr + 1, '');
+                // Find next non whitepsace character, use it determine file line difference
+                $nextNonWhitespaceToken = $phpcsFile->findNext(T_WHITESPACE, $stackPtr + 1, null, true);
+                $lineDiff = $tokens[$nextNonWhitespaceToken]['line'] - $tokens[$stackPtr]['line'];
+
+                // Same line, check spaces
+                // Else more than one line, show error
+                // Single new line between arguments allowed
+                if ($lineDiff === 0) {
+                    $fix = $phpcsFile->addFixableError(
+                        'Expected 0 spaces after string concatenation operator',
+                        $stackPtr,
+                        'StringConcatSpaceAfter'
+                    );
+
+                    if ($fix === true) {
+                        $phpcsFile->fixer->replaceToken($stackPtr + 1, '');
+                    }
+                }
+                else if ($lineDiff > 1) {
+                    $fix = $phpcsFile->addFixableError(
+                        'Empty lines found after string concatenation operator',
+                        $nextNonWhitespaceToken,
+                        'StringConcatEmptyLinesAfter'
+                    );
+
+                    if ($fix === true) {
+                        // Remove all whitespace, remove the string concat operator
+                        $phpcsFile->fixer->replaceToken($stackPtr + 1, '');
+                        $phpcsFile->fixer->replaceToken($stackPtr, '');
+
+                        // Prefix the next none whitepsace token with the string concat operator
+                        $phpcsFile->fixer->replaceToken($nextNonWhitespaceToken, '.'.$tokens[$nextNonWhitespaceToken]['content']);
+                    }
                 }
             }
         }
