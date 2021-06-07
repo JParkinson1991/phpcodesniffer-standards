@@ -145,7 +145,20 @@ class OperatorSpacingSniff extends SquizOperatorSpacingSniff
                     );
 
                     if ($fix === true) {
-                        $phpcsFile->fixer->replaceToken($stackPtr - 1, '');
+                        // Loop all tokens between the operator and the previous none whitespace token
+                        for ($i = $previousNonWhitespaceToken; $i < $stackPtr; $i++) {
+                            // If the token sits on the same line as the operator or the previous none whitespace token
+                            // ignore it, this preserve whitespace and avoids issue with fix loops auto removing
+                            // whitespace when string concat arguments are on the same lame
+                            // Simply put, the following condition ensures only lines between the operator and previous
+                            // argument are removed
+                            if (
+                                $tokens[$i]['line'] !== $tokens[$previousNonWhitespaceToken]['line']
+                                && $tokens[$i]['line'] !== $tokens[$stackPtr]['line']
+                            ) {
+                                $phpcsFile->fixer->replaceToken($i, '');
+                            }
+                        }
                     }
                 }
             }
@@ -177,11 +190,19 @@ class OperatorSpacingSniff extends SquizOperatorSpacingSniff
                     );
 
                     if ($fix === true) {
-                        // Remove all whitespace, remove the string concat operator
-                        $phpcsFile->fixer->replaceToken($stackPtr + 1, '');
-                        $phpcsFile->fixer->replaceToken($stackPtr, '');
+                        // Loop all tokens between the string concat operator and the next non whitespace token
+                        for ($i = ($stackPtr + 1); $i < $nextNonWhitespaceToken; $i++) {
+                            // Do not remove any whitespace from the same line as the next non whitespace token
+                            // This preserves whitespace on the next string concat argument (i.e. preserves indentation)
+                            if ($tokens[$i]['line'] !== $tokens[$nextNonWhitespaceToken]['line']){
+                                $phpcsFile->fixer->replaceToken($i, '');
+                            }
+                        }
 
-                        // Prefix the next none whitepsace token with the string concat operator
+                        // Replace the string concat operator with a new line
+                        $phpcsFile->fixer->replaceToken($stackPtr, $phpcsFile->eolChar);
+
+                        // Prefix the next none whitespace token with the string concat operator
                         $phpcsFile->fixer->replaceToken($nextNonWhitespaceToken, '.'.$tokens[$nextNonWhitespaceToken]['content']);
                     }
                 }
